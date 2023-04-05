@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket #{{ ticket_num }} | {{ user_name }}</title>
+</head>
+
+<button class="back_to_search" onclick="window.location.href='/ticket_search'">Back to Search</button>
+
+<header>
+    <div class="main-header">
+        Ticket #{{ ticket_num }} | {{ user_name }}
+    </div>
+</header>
+
+<body>
+    <div class="start-end">
+        User ID: {{ user_id }}
+        <br />
+        Volunteer ID: {{ volunteer_id }}
+        <br />
+        <br />
+        Start Date: {{ start_date }}
+        <br />
+        End Date: {{ end_date }}
+        <br />
+        <br />
+        Ticket Open: {{ difference }}  |  Wait Time: {{ wait_time }}
+        <br />
+        {{ length }}
+        <br />
+    </div>
+
+    {% for i in range(length_num) %}
+    <div class="message-wrapper">
+        <img class="pfp" alt="User PFP" src={{ messages[i][3] }}>
+        <div class="message-content">
+            <div class="message-name" style="{{ messages[i][4] }}">
+                {{ messages[i][2] }}
+                <span class="date-time">{{ messages[i][1] }} UTC</span>
+            </div>
+            <div class="message-text">
+                {{ messages[i][0] }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <div class="message-wrapper">
+        <img class="pfp" alt="Bot PFP" src="https://cdn.discordapp.com/avatars/982806583060885525/56393db04cad58ed063815c08cea956d.png?size=1024">
+        <div class="message-content">
+            <div class="message-name" style="color: #FF9AFB">
+                FrontLines
+                <span class="date-time">{{ end_date }}</span>
+            </div>
+            <div class="message-text">
+                Ticket was closed by the volunteer. Reason: {{ reason }}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+    * {
+        background-color: #2C2F33;
+        font-family: Roboto;
+    }
+
+    .main-header {
+        margin-top: 80px;
+        text-align: center;
+        font-family: Roboto;
+        font-size: 40px;
+        color: #7289DA ;
+        font-weight: 700;
+    }
+
+    .start-end {
+        margin: 20px auto 70px auto;
+        text-align: center;
+        line-height: 25px;
+        font-family: Roboto;
+        color: #7289DA;
+        font-size: 17px;
+        font-weight: 500;
+    }
+
+    .message-name, .message-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .message-wrapper {
+        font-size: 15px;
+        margin: 0 auto;
+        width: 69%;
+        word-wrap: break-word;
+        padding-bottom: 40px;
+        display: flex;
+        align-items:flex-start;
+    }
+
+    .message-name {
+        font-weight: 500;
+        margin-bottom: 5px;
+        position: relative;
+    }
+
+    .pfp {
+        width: 40px;
+        height: auto;
+        border-radius: 50%;
+    }
+
+    .date-time {
+        margin: 0 10px;
+        color: #b9bbbe;
+        font-size: 13px;
+        opacity: .7;
+    }
+
+    .message-text {
+        overflow: hidden;
+        width: 100%;
+        line-height: 20px;
+    }
+
+    .message-content {
+        text-align: left;
+        color: #fff;
+        padding: 0 12px;
+    }
+
+    .back_to_search {
+        font-family: 'Poppins',sans-serif;
+        letter-spacing: 0.5px;
+        outline: none;
+        border: none;
+        text-decoration: none;
+        align-items: center;
+        width: 175px;
+        height: auto;
+        background-color: #7289DA;
+        color: #ffffff;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        left: 50%;
+        top: 3%;
+    }
+
+</style>

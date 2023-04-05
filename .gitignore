@@ -1,0 +1,10 @@
+__pycache__
+.DS_STORE
+temp.db
+temp.sqlite
+remdb.sqlite
+transcripts/
+thanksdb.sqlite
+config.yml
+origin-cert.pem
+priv-key.pem

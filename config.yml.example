@@ -1,0 +1,17 @@
+bot:
+  token:
+  prefix:
+  main_server: SERVER_ID
+  dashboard_channel: CHANNEL_ID
+  support_channel: CHANNEL_ID
+  statistics_channel: CHANNEL_ID
+  settings_channel: CHANNEL_ID
+  new_servers_channel: CHANNEL_ID
+  redirect_uri: https://yourdomain.com/callback
+  client_id: BOT_ID
+  client_secret: BOT_SECRET
+  frontlines_uri_connection_string: POSTGTRESQL_CONNECTION_STRING
+  chat_gpt_apikey: CHAT_GPT_API_KEY
+
+  transcripts_username: SITE_LOGIN_USERNAME
+  transcripts_password: SITE_LOGIN_PASSWORD
