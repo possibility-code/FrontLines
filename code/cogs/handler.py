@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands.errors import CommandNotFound
+import datetime
 
 class slash_handlers(commands.Cog):
     def __init__(self, bot):
@@ -20,9 +21,11 @@ class slash_handlers(commands.Cog):
             return await interaction.response.send_message(embed=embed, ephemeral=True)
         if isinstance(error, CommandNotFound):
             return
-        # Else, we have a new, unhandled error, so print the error to the console
+        # Else, we have a new error, so print the error to the console and write it to error.log
         else:
             print(error)
+            with open("error.log", "a") as f:
+                f.write(f"{datetime.datetime.now()}: {error}\n")
 
 
 async def setup(bot: commands.Bot):

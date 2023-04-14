@@ -1,6 +1,8 @@
 import discord
 import asyncio
 from reader import MAIN_SERVER
+import datetime
+
 
 """
 Transfers the ticket to a new volunteer. Mainly just changes to channel permissions
@@ -33,8 +35,13 @@ async def transfer_ticket(bot, interaction, new_vol):
     bot.active_ticket[new_vol.id] = user.id
 
     # Change channel perms so only the new volunteer can view the channel
-    await channel.set_permissions(new_vol, read_messages=True, send_messages=True)
-    await channel.set_permissions(orig_vol, read_messages=False, send_messages=False)
+    try:
+        await channel.set_permissions(new_vol, read_messages=True, send_messages=True)
+        await channel.set_permissions(orig_vol, read_messages=False, send_messages=False)
+    except:
+        with open("error.log", "a") as f:
+            f.write(f"{datetime.datetime.now()}: TransferChannelPermissionError\n")
+        pass
 
     # Send a message to the user alerting them that their ticket has been transfered to a new volunteer
     embed = discord.Embed(

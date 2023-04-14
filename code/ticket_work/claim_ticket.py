@@ -2,8 +2,7 @@ import discord
 from reader import MAIN_SERVER
 import datetime
 from views.new_ticket_view import new_ticket_view
-import time
-import sqlite3
+
 
 async def claim_ticket(bot, interaction):
     if interaction.user.id not in bot.online_volunteers:
@@ -71,8 +70,13 @@ async def claim_ticket(bot, interaction):
         channel = bot.get_channel(bot.ticket_info[user_id]["channel_id"])
 
         # Change channel perms so only the volunteer can view the channel
-        await channel.set_permissions(main_server.get_member(interaction.user.id), read_messages=True, send_messages=True)
-        await channel.set_permissions(main_server.default_role, read_messages=False, send_messages=False)
+        try:
+            await channel.set_permissions(main_server.get_member(interaction.user.id), read_messages=True, send_messages=True)
+            await channel.set_permissions(main_server.default_role, read_messages=False, send_messages=False)
+        except:
+            with open("error.log", "a") as f:
+                f.write(f"{datetime.datetime.now()}: TicketChannelPermissionError\n")
+            pass
 
         # Send a message to the user notifying them that their ticket has been claimed
         embed = discord.Embed(
@@ -96,8 +100,13 @@ async def claim_ticket(bot, interaction):
         bot.tempdb.commit()
 
         # Change channel perms so only the volunteer can view the channel
-        await channel.set_permissions(main_server.get_member(interaction.user.id), read_messages=True, send_messages=True)
-        await channel.set_permissions(main_server.default_role, read_messages=False, send_messages=False)
+        try:
+            await channel.set_permissions(main_server.get_member(interaction.user.id), read_messages=True, send_messages=True)
+            await channel.set_permissions(main_server.default_role, read_messages=False, send_messages=False)
+        except:
+            with open("error.log", "a") as f:
+                f.write(f"{datetime.datetime.now()}: TicketChannelPermissionError\n")
+            pass
 
         # Make sure all manager roles have access to the channel
         async with bot.db.acquire() as conn:
@@ -137,7 +146,7 @@ async def claim_ticket(bot, interaction):
         embed.set_footer(text=f"Ticket {ticket_num} | Claimed on {datetime.date.today()} at {datetime.datetime.now().strftime('%H:%M:%S')}")
         view = new_ticket_view(bot)
         await channel.send(embed=embed, view=view)
-        
+
         # Create the 'Standard Automatic Message' and send it to the user and the channel
         embed = discord.Embed(
             title="Standard Automatic Message",

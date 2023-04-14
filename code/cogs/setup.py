@@ -6,6 +6,7 @@ import asyncpg
 from views.setup_view import setup_view
 import asyncio
 
+
 class setup_command(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -71,8 +72,13 @@ class setup_command(commands.Cog):
         # so that the role given by the author can view the channel, but not send messages
         category = await interaction.channel.guild.create_category_channel(category_name)
         channel = await interaction.channel.guild.create_text_channel(channel_name, category=category, topic="Are you in a crisis? Call 800-273-8255 or Text POSSIBILITY to 741741 | <:space_heart:977673187255021599> Are you having a bad day? Click \"Get Connected\" below")
-        await channel.set_permissions(role, read_messages=True, send_messages=False)
-        await channel.set_permissions(self.bot.user, read_messages=True, send_messages=True)
+        try:
+            await channel.set_permissions(role, read_messages=True, send_messages=False)
+            await channel.set_permissions(self.bot.user, read_messages=True, send_messages=True)
+        except:
+            with open("error.log", "a") as f:
+                f.write(f"{datetime.datetime.now()}: SetupChannelPermissionErrro\n")
+            pass
 
         wait_time = self.bot.avg_wait
 

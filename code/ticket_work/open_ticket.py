@@ -7,7 +7,7 @@ Determine whether or not the user is currently eligble to open a ticket,
 if they are, send them to the questions that must be answered before ticket opening.
 """
 async def open_ticket(bot, interaction):
-    if interaction.user.id in bot.ticket_queue or bot.ticket_queue or bot.still_answering:
+    if interaction.user.id in bot.ticket_queue or interaction.user.id in bot.still_answering:
         embed = discord.Embed(
             title="Ticket Already Open",
             description="You already have a ticket open. Please close it before opening a new one."

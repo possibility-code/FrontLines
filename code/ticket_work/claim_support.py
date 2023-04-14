@@ -31,8 +31,13 @@ async def claim_support(bot, interaction):
 
     # Create the channel and set the permissions
     channel = await main_server.create_text_channel(f"support-{user.name}")
-    await channel.set_permissions(main_server.default_role, read_messages=False)
-    await channel.set_permissions(user, read_messages=True, send_messages=True)
+    try:
+        await channel.set_permissions(main_server.default_role, read_messages=False)
+        await channel.set_permissions(user, read_messages=True, send_messages=True)
+    except:
+        with open("error.log", "a") as f:
+            f.write(f"{datetime.datetime.now()}: SupportChannelPermissionError\n")
+        pass
 
     bot.support_channel_to_user[channel.id] = user_id
 

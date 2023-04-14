@@ -1,5 +1,7 @@
 import discord
 import asyncio
+import datetime
+
 
 """
 Puts the ticket back into the queue in the first position so
@@ -38,7 +40,12 @@ async def requeue_ticket(bot, interaction):
     channel = bot.get_channel(channel_id)
 
     # Edit the current channel permission
-    await channel.set_permissions(vol, read_messages=False, send_messages=False)
+    try:
+        await channel.set_permissions(vol, read_messages=False, send_messages=False)
+    except:
+        with open("error.log", "a") as f:
+            f.write(f"{datetime.datetime.now()}: RequeueChannelPermissionError\n")
+        pass
     # Insert the user back into the first (zeroth index) of the queue
     bot.ticket_queue.insert(0, user.id)
 

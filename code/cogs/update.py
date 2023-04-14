@@ -320,8 +320,8 @@ class updates(commands.Cog):
         data = temp + supporttemp
 
         embed = discord.Embed(
-            title="Bot Downtime - Please Reopen Ticket",
-            description="The FrontLines but unfortunately faced some down time. Due to this unexpected downtime, all users whose tickets were in queue or in progress with a volunteer have been ended. Please reopen a ticket with the bot. Sorry for the inconvenience.",
+            title="UPDATE",
+            description="Sorry for the unexpected restarts of the bot! We have been having to push important updates and fixes urgently, this should no longer happen.",
             color=0x0079FF
         )
 

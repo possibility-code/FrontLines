@@ -31,7 +31,8 @@ class on_message(commands.Cog):
                 )
                 file = discord.File("./code/img/space_heart.png", filename="space_heart.png")
                 embed.set_thumbnail(url="attachment://space_heart.png")
-                await user.send(file=file, embed=embed)
+                msg = await user.send(file=file, embed=embed)
+                await message.add_reaction("✅")
 
                 message_info = {
                     "message": message.content,
@@ -54,6 +55,7 @@ class on_message(commands.Cog):
             embed.set_thumbnail(url=message.author.avatar.url)
             view = gpt_rec_view(self.bot.ticket_info[message.author.id]["ticket_messages"])
             msg = await channel.send(embed=embed, view=view)
+            await message.add_reaction("✅")
 
             message_info = {
                 "message": message.content,

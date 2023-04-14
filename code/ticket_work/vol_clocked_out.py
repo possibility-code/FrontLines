@@ -1,4 +1,6 @@
 import discord
+import datetime
+
 
 """
 Put the ticket back into the first position in the queue because the volunteer
@@ -13,7 +15,12 @@ async def vol_has_clocked_out(bot, vol_id, user_id):
     channel = bot.get_channel(channel_id)
 
     # Edit the current channel permission
-    await channel.set_permissions(vol, read_messages=False, send_messages=False)
+    try:
+        await channel.set_permissions(vol, read_messages=False, send_messages=False)
+    except:
+        with open("error.log", "a") as f:
+            f.write(f"{datetime.datetime.now()}: ClockoutChannelPermissionError\n")
+        pass
     # Insert the user back into the first (zeroth index) of the queue
     bot.ticket_queue.insert(0, user_id)
     del bot.active_ticket[vol_id]
