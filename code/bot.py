@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import os
-from reader import TOKEN, DEFAULT_PREFIX, FRONTLINES_URI_CONNECTION_STRING
+from reader import TOKEN, DEFAULT_PREFIX, FRONTLINES_URI_CONNECTION_STRING, MAIN_SERVER
 import asyncpg
 import sqlite3
 
@@ -49,6 +49,8 @@ class MyBot(commands.Bot):
 
 bot = MyBot()
 
+
+bot.queue_times = {} # user_id: time
 bot.ticket_queue = [] # user_id
 bot.still_answering = [] # user_id
 bot.avg_wait = "UNKNOWN"

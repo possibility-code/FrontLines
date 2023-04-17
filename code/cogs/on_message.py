@@ -31,7 +31,17 @@ class on_message(commands.Cog):
                 )
                 file = discord.File("./code/img/space_heart.png", filename="space_heart.png")
                 embed.set_thumbnail(url="attachment://space_heart.png")
-                msg = await user.send(file=file, embed=embed)
+                try:
+                    msg = await user.send(file=file, embed=embed)
+                except discord.errors.Forbidden:
+                    # User has blocked the bot
+                    embed = discord.Embed(
+                        title="Error Sending Message to User",
+                        description=f"The user that opened this ticket has restricted messages from the bot. I can no longer send messages to the user, please either alert {user.mention} or close the ticket.",
+                        color=discord.Color.red()
+                    )
+                    return await message.channel.send(embed=embed)
+
                 await message.add_reaction("✅")
 
                 message_info = {

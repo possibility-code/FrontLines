@@ -21,6 +21,14 @@ class setup_command(commands.Cog):
     async def setup(self, interaction: discord.Interaction, category_name: str, channel_name: str, role: discord.Role):
         """Setup your server for the ticket system"""
         # Make sure the guild doesnt already have a setup channel/message in the server
+        if len(channel_name) > 100:
+            embed = discord.Embed(
+                title="Channel Name Too Long",
+                description="The channel name you provided is too long. Please provide a channel name that is less than 100 characters.",
+                color=discord.Color.red()
+            )
+            return await interaction.response.send_message(embed=embed)
+
         async with self.bot.db.acquire() as conn:
             data = await conn.fetchval("SELECT guild_id FROM server_info WHERE guild_id = $1", interaction.guild.id)
             if data:

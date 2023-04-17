@@ -93,7 +93,7 @@ async def claim_ticket(bot, interaction):
         await channel.send(embed=embed)
     # Else, create a new channel
     else:
-        channel = await main_server.create_text_channel(name=f"{user.name}")
+        channel = await main_server.create_text_channel(name=f"bothelp-{user.name}")
 
         # Add the channel id to the temp database
         bot.tempdb.execute(f"UPDATE temp SET channel_id = {channel.id} WHERE user_id = {user_id}")
