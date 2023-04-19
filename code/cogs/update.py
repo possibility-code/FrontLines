@@ -25,6 +25,7 @@ class updates(commands.Cog):
         self.get_clocked_in_users.start()
         self.check_for_vol_clock_out.start()
         self.check_for_afk_user.start()
+        self.check_for_queued_ticket_time.start()
         self.check_for_ticket_reopen.start()
 
     """
@@ -304,6 +305,30 @@ class updates(commands.Cog):
                     # Otherwise, it hasn't been 2 hours, so return
                     else:
                         return
+
+
+    """
+    Check if the user's ticket has been in the queue for more than 15 minutes, if it has,
+    AND there are no volunteers online, remove the ticket and alert the user
+    """
+    @tasks.loop(minutes=1)
+    async def check_for_queued_ticket_time(self):
+        for user_id in list(self.bot.queue_times.keys()):
+            if datetime.datetime.now() - self.bot.queue_times[user_id] > datetime.timedelta(minutes=15):
+                if len(self.bot.online_volunteers) == 0:
+                    self.bot.ticket_queue.remove(user_id)
+                    del self.bot.queue_times[user_id]
+                    user = self.bot.get_user(user_id)
+                    try:
+                        embed = discord.Embed(
+                            title="Ticket Status Update",
+                            description="Your ticket has been removed from the queue as there are no volunteers online. Please open a ticket at a later time when there are volunteers that are available, we are sorry for this inconvenience.",
+                            color=0x0079FF
+                        )
+                        await user.send(embed=embed)
+                    except discord.Forbidden:
+                        pass
+
 
     """
     Only run once on cog load, will alert any users that had an open ticket

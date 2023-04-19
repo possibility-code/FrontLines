@@ -220,6 +220,7 @@ class reason_dropdown(discord.ui.Select):
         await interaction.response.edit_message(attachments=[], embed=embed, view=None)
 
         self.bot.ticket_queue.append(interaction.user.id)
+        self.bot.queue_times[interaction.user.id] = datetime.datetime.now()
         # Add the users answers to the 'answers' dictionary
         # Answers are sent between '+' so that they can easily be split
         # later when the ticket is claimed
